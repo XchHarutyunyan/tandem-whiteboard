@@ -20,8 +20,9 @@ export default function App() {
   const [selection, setSelection] = useState<string[]>([]);
   const [copied, setCopied] = useState(false);
 
+  // Normalise the URL to #room=<id> (drops the one-off "new" flag)
   useEffect(() => {
-    if (!location.hash) history.replaceState(null, "", `#room=${roomId}`);
+    history.replaceState(null, "", `#room=${roomId}`);
   }, [roomId]);
 
   // Recolour the selected shapes when a swatch is picked
@@ -76,7 +77,7 @@ export default function App() {
           <button className={bot.active ? "on" : ""} onClick={bot.toggle}>
             {bot.active ? "Stop bot" : "🤖 Invite a bot"}
           </button>
-          <button onClick={() => window.open(location.href, "_blank")}>Open 2nd tab</button>
+          <button onClick={() => window.open(`#room=${roomId}&new=1`, "_blank")}>Open 2nd tab</button>
           <button onClick={share}>{copied ? "Link copied ✓" : "Copy link"}</button>
           <button className="ghost" onClick={resetBoard}>Reset</button>
         </div>

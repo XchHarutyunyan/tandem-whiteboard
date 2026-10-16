@@ -8,9 +8,11 @@ const CURSOR_COLORS = ["#ef4444", "#f97316", "#10b981", "#3b82f6", "#ec4899", "#
 
 /** A name and colour per browser tab, so two tabs show up as two people */
 export function loadUser(): User {
+  // "Open 2nd tab" adds new=1: browsers copy sessionStorage into tabs opened with window.open
+  const forceNew = new URLSearchParams(location.hash.slice(1)).has("new");
   try {
     const saved = sessionStorage.getItem("tandem.user");
-    if (saved) return JSON.parse(saved);
+    if (saved && !forceNew) return JSON.parse(saved);
   } catch {
     // ignore unavailable storage
   }
